@@ -1,13 +1,14 @@
-public class Example1 {
+public class Example2 {
     public static void main(String[] args) {
-        MyThreadEx1 myThread1 = new MyThreadEx1();
-        MyThreadEx1 myThread2 = new MyThreadEx1();
+        Thread myThread1 = new Thread(new MyThreadEx2());
+        Thread myThread2 = new Thread(new MyThreadEx2());
+
         myThread1.start();
         myThread2.start();
     }
 }
 
-class MyThreadEx1 extends Thread {
+class MyThreadEx2 implements Runnable {
     @Override
     public void run() {
         for (int i = 0; i < 100; i++) {
