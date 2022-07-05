@@ -1,9 +1,4 @@
 public class WaitNotify {
-}
-
-class Market {
-    private int breadCount = 0;
-
     public static void main(String[] args) {
         Market market = new Market();
         Producer producer = new Producer(market);
@@ -15,6 +10,10 @@ class Market {
         producerThread.start();
         consumerThread.start();
     }
+}
+
+class Market {
+    private int breadCount = 0;
 
     public synchronized void getBread() {
         while (breadCount < 1) {
