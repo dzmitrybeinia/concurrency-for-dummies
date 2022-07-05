@@ -16,10 +16,15 @@ class Counter {
 }
 
 class MyRunnableEx9 implements Runnable {
+
+    public void increment() {
+        Counter.count++;
+    }
+
     @Override
     public void run() {
         for (int i = 0; i < 3; i++) {
-            Counter.count++;
+            increment();
             System.out.println("counter = " + Counter.count);
         }
     }
