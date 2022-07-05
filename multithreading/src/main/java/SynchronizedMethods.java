@@ -1,5 +1,5 @@
 public class SynchronizedMethods {
-    private static final Lock lock = new Lock();
+    private static final Object lock = new Object();
     void mobileCall() {
         synchronized (lock) {
             System.out.println("mobile call starts");
@@ -67,5 +67,3 @@ class TelegramRunnable implements Runnable {
         new SynchronizedMethods().telegramCall();
     }
 }
-
-class Lock {}
