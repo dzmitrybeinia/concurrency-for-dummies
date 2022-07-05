@@ -13,34 +13,39 @@ public class WaitNotify {
 }
 
 class Market {
+    private final Object lock = new Object();
     private int breadCount = 0;
 
-    public synchronized void getBread() {
-        while (breadCount < 1) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+    public void getBread() {
+        synchronized (lock) {
+            while (breadCount < 1) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            breadCount--;
+            System.out.println("Consumer get 1 bread");
+            System.out.println("Amount of bread = " + breadCount);
+            lock.notify();
         }
-        breadCount--;
-        System.out.println("Consumer get 1 bread");
-        System.out.println("Amount of bread = " + breadCount);
-        notify();
     }
 
-    public synchronized void putBread() {
-        while (breadCount >= 5) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+    public void putBread() {
+        synchronized (lock) {
+            while (breadCount >= 5) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            breadCount++;
+            System.out.println("Producer add 1 bread");
+            System.out.println("Amount of bread = " + breadCount);
+            lock.notify();
         }
-        breadCount++;
-        System.out.println("Producer add 1 bread");
-        System.out.println("Amount of bread = " + breadCount);
-        notify();
     }
 }
 
@@ -53,7 +58,7 @@ class Producer implements Runnable {
 
     @Override
     public void run() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 30; i++) {
             market.putBread();
         }
     }
@@ -68,7 +73,7 @@ class Consumer implements Runnable {
 
     @Override
     public void run() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 30; i++) {
             market.getBread();
         }
     }
